@@ -1,0 +1,1 @@
+# django_tienda_electronica
