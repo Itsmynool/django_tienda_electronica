@@ -58,6 +58,9 @@ class Cliente(models.Model):
     apellido = models.CharField(max_length=255)
     correo = models.EmailField(unique=True)
     direccion = models.TextField(blank=True)
+    contrasena = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    last_login = models.DateTimeField(null=True)
 
     def __str__(self):
         return f'{self.nombre} {self.apellido}'
