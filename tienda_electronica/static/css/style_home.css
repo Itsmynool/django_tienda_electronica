@@ -128,3 +128,102 @@ header {
     margin: 0 0 11px;
 }
 
+.productos-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.producto {
+    position: relative;
+    width: calc(33.33% - 20px); /* Un tercio del ancho con un pequeño espacio entre ellos */
+    margin-right: 20px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: #A2A2A2; /* Color de fondo para el contenedor */
+    padding: 10px; /* Espaciado interno para el contenido del producto */
+    display: flex; /* Add this line to make it a flex container */
+    flex-direction: column; /* Stack child elements vertically */
+    justify-content: space-between; /* Distribute space evenly between child elements */
+    align-items: flex-start;
+}
+
+
+.producto img {
+    max-width: 100%; /* Las imágenes tendrán un ancho máximo del contenedor */
+    height: auto; /* La altura se ajustará automáticamente para mantener la proporción */
+}
+
+.producto label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.producto input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    align-self: flex-start; /* Align the quantity input to the left within the flex container */
+    margin-bottom: 10px;
+}
+
+.titulo_producto { /* Style the title container */
+    font-size: 18px; /* Set the desired font size */
+    font-weight: bold; /* Make the text bold */
+    margin-bottom: 10px; /* Add some space below the title */
+}
+
+.precio_producto {
+    font-size: 14px;
+    position: absolute; /* Position the price absolutely */
+    top: 0; /* Place it at the top of the product container */
+    right: 0; /* Place it at the right of the product container */
+    background-color: rgba(0, 0, 0, 0.7); /* Add background color to make it stand out */
+    color: #fff; /* Text color */
+    padding: 5px; /* Add padding for better visibility */
+}
+.producto .agregar-carrito {
+    position: absolute; /* Add this line to position the button absolutely */
+    bottom: 10px; /* Adjust this value to control the distance from the bottom */
+    right: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.cantidad_producto {
+    left: 10px;
+    color: #000000;
+    padding: 5px 5px;
+    font-size: 14px;
+    margin-top: 10px;
+    display: flex; /* Use flexbox to align label and input vertically */
+    flex-direction: column; /* Alinear elementos en columna */
+    align-items: flex-start; /* Vertically center label and input */
+}
+
+.cantidad_producto label {
+    margin: 0;
+    font-weight: bold;
+    margin-right: 10px; /* Add spacing between label and input */
+}
+
+.producto .agregar-carrito:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .producto {
+        max-width: calc(50% - 20px); /* Dos productos por fila en pantallas más pequeñas */
+    }
+}
+
+@media (max-width: 480px) {
+    .producto {
+        max-width: 100%; /* Un producto por fila en pantallas muy pequeñas */
+    }
+}

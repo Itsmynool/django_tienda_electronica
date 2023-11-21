@@ -17,9 +17,11 @@
             </div>
             <div class="all-header">
                 <div class="search-box">
-                    <input type="text" placeholder="Buscar" class="search-input">
-                    <i class="fas fa-search search-icon"></i>
-                </div>                
+                    <form method="get" action="{% url 'home' %}">
+                        <input type="text" name="q" placeholder="Buscar" class="search-input">
+                        <button type="submit"><i class="fas fa-search search-icon"></i></button>
+                    </form>
+                </div>               
                 <a href="#"><i class="fas fa-shopping-cart"></i></a>
             </div>
             <div class="all-header">
@@ -30,23 +32,28 @@
     </header>
     <body>
         <section>
-            <div class="categorias-container">
-                {% for categoria in categorias %}
-                    <div class="categoria">
-                        <h3>{{ categoria.nombre }}</h3>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
-        <section>
             <div class="productos-container">
                 {% for producto in productos %}
                     <div class="producto">
                         {% if producto.stock != 0 %}
                             <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
-                            <h3>{{ producto.nombre }}</h3>
-                            <p>{{ producto.descripcion }}</p>
-                            <p>Precio: {{ producto.precio }}</p>
+                            <div class="titulo_producto">
+                                <h3>{{ producto.nombre }}</h3>
+                            </div>
+                            <div class="descripcion_producto">
+                                <p>{{ producto.descripcion }}</p>
+                            </div>
+                            <div class="precio_producto">
+                                <p>Precio: ${{ producto.precio|floatformat:"2" }}</p>
+                            </div>
+                            <div class="contenido-inferior">
+                                <div class="cantidad_producto">
+                                    <label for="cantidad{{ producto.id }}">Cantidad:</label>
+                                    <input type="number" id="cantidad{{ producto.id }}" name="cantidad" value="1" min="1">
+                                </div>
+                                <button class="agregar-carrito" data-producto="{{ producto.id }}">Agregar al carrito</button>
+ 
+                            </div>
                         {% endif %}
                     </div>
                 {% empty %}
