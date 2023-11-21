@@ -4,6 +4,8 @@ from django.contrib.auth.hashers import check_password
 
 class EmailAuthBackend(BaseBackend):
     def authenticate(self, request, username=None, password=None):
+        if '@' not in username:
+            return None
         try:
             user = Cliente.objects.get(correo=username)
             if user and check_password(password, user.contrasena):
