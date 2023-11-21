@@ -1,15 +1,11 @@
-from django.contrib.auth.backends import BaseBackend
-from .models import Cliente
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.models import User
 
-class EmailAuthBackend(BaseBackend):
-    def authenticate(self, request, username=None, password=None):
-        if '@' not in username:
-            return None
+class EmailAuthBackend(ModelBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
         try:
-            user = Cliente.objects.get(correo=username)
-            if user and check_password(password, user.contrasena):
+            user = User.objects.get(email=username)
+            if user.check_password(password) and self.user_can_authenticate(user):
                 return user
-            return None
-        except Cliente.DoesNotExist:
+        except User.DoesNotExist:
             return None

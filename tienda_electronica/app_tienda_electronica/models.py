@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class EstadoPedido(models.TextChoices):
     CREADO = 'CREADO', 'Creado'
@@ -37,7 +40,7 @@ class Pedido(models.Model):
         default=EstadoPedido.CREADO
     )
     estadoActual = models.CharField(max_length=255)
-    cliente = models.ForeignKey('Cliente', on_delete=models.CASCADE, related_name='pedidos')
+    cliente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pedidos')
 
     def __str__(self):
         return f'Pedido {self.id} - Estado: {self.estado}'
@@ -52,15 +55,18 @@ class DetallePedido(models.Model):
     def __str__(self):
         return f'Detalle de {self.pedido} - Producto: {self.producto}'
 
-# Modelo Cliente
-class Cliente(models.Model):
-    nombre = models.CharField(max_length=255)
-    apellido = models.CharField(max_length=255)
-    correo = models.EmailField(unique=True)
+class Perfil(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     direccion = models.TextField(blank=True)
-    contrasena = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=True)
-    last_login = models.DateTimeField(null=True)
 
     def __str__(self):
-        return f'{self.nombre} {self.apellido}'
+        return f'Perfil de {self.user.username}'
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Perfil.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.perfil.save()
