@@ -8,12 +8,11 @@ class EstadoPedido(models.TextChoices):
     CANCELADO = 'CANCELADO', 'Cancelado'
 
 # Modelo Categoria
-# Modelo Categoria
 class Categoria(models.Model):
     nombre = models.CharField(max_length=255, unique=True)
     descripcion = models.TextField(blank=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.nombre
 
 # Modelo Producto
@@ -25,7 +24,7 @@ class Producto(models.Model):
     categorias = models.ManyToManyField('Categoria')
     imagen = models.ImageField(upload_to='imagenes_productos/', default='imagenes_productos/default.jpg')  # Aquí agregamos el campo de la imagen
 
-    def _str_(self):
+    def __str__(self):
         return self.nombre
 
 # Modelo Pedido
