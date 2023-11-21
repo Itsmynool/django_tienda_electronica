@@ -8,7 +8,6 @@ class EstadoPedido(models.TextChoices):
     CANCELADO = 'CANCELADO', 'Cancelado'
 
 # Modelo Categoria
-# Modelo Categoria
 class Categoria(models.Model):
     nombre = models.CharField(max_length=255, unique=True)
     descripcion = models.TextField(blank=True)
