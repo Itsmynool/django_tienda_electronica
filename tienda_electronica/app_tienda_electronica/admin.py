@@ -6,7 +6,6 @@ from .models import Categoria, Producto, Cliente
 class CategoriaAdmin(admin.ModelAdmin):
     list_display = ['nombre', 'descripcion']
    
-
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
     list_display = ['nombre', 'descripcion', 'precio', 'stock', 'get_categorias', 'imagen']

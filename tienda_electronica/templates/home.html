@@ -38,6 +38,22 @@
                 {% endfor %}
             </div>
         </section>
+        <section>
+            <div class="productos-container">
+                {% for producto in productos %}
+                    <div class="producto">
+                        {% if producto.stock != 0 %}
+                            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                            <h3>{{ producto.nombre }}</h3>
+                            <p>{{ producto.descripcion }}</p>
+                            <p>Precio: {{ producto.precio }}</p>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p>No hay productos disponibles.</p>
+                {% endfor %}
+            </div>
+        </section>
     </body>
 </body>
 </html>

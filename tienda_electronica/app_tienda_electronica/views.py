@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect
 from .forms import ClienteSignUpForm, CustomAuthenticationForm  # Asegúrate de que solo estas clases estén importadas
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login as auth_login
-from .models import Categoria
+from .models import Categoria, Producto
 
 # Create your views here.
 def home(request):
     categorias = Categoria.objects.all()
-    return render(request, 'home.html', {'categorias': categorias})
+    productos = Producto.objects.all()
+    return render(request, 'home.html', {'categorias': categorias, 'productos': productos})
 
 def register(request):
     if request.method == 'POST':
