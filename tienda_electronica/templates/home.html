@@ -38,9 +38,11 @@
     <body>
         <section>
             <div class="categorias-container">
-                {% for categoria in categorias %}
                     <div class="categoria">
-                        <h3>{{ categoria.nombre }}</h3>
+                        <a href="/" class="filtro-categoria">Todos</a>
+                {% for categoria in categorias %}
+                    
+                        <a href="/categoria/{{categoria.nombre}}" class="filtro-categoria">{{ categoria.nombre }}</a>
                     </div>
                 {% endfor %}
             </div>

@@ -8,6 +8,11 @@ def home(request):
     productos = Producto.objects.all()
     return render(request, 'home.html', {'categorias': categorias, 'productos': productos})
 
+def home_filtro(request, categoria_name):
+    categorias = Categoria.objects.all()
+    productos = Producto.objects.filter(categorias__nombre = categoria_name)
+    return render(request, 'home.html', {'categorias': categorias, 'productos': productos, 'categoria_name': categoria_name})
+
 def register(request):
     if request.method == 'POST':
         form = ClienteSignUpForm(request.POST)
