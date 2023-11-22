@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import Perfil
+from .models import MetodoPago
 
 class ClienteSignUpForm(UserCreationForm):
     nombre = forms.CharField(max_length=255, required=True)
@@ -23,7 +24,6 @@ class ClienteSignUpForm(UserCreationForm):
             perfil.direccion = self.cleaned_data['direccion']
             perfil.save()
         return user
-
     
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.EmailField(label="Correo", widget=forms.TextInput(attrs={'autofocus': True}))
@@ -33,3 +33,11 @@ class CustomAuthenticationForm(AuthenticationForm):
         if not User.objects.filter(email=username).exists():
             raise forms.ValidationError("El correo electrónico no está registrado.")
         return username
+
+class MetodoPagoForm(forms.ModelForm):
+    class Meta:
+        model = MetodoPago
+        fields = ['tipo_tarjeta', 'nombre_titular', 'cvv', 'fecha_expiracion', 'numero_tarjeta']
+        widgets = {
+            'fecha_expiracion': forms.DateInput(attrs={'type': 'date'}),
+        }

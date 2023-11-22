@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout
-from .forms import ClienteSignUpForm, CustomAuthenticationForm
+from .forms import ClienteSignUpForm, CustomAuthenticationForm, MetodoPagoForm
 from django.shortcuts import redirect, get_object_or_404
-from .models import Categoria, Producto
+from .models import Categoria, Producto, MetodoPago, Pedido, DetallePedido, EstadoPedido  
+from django.utils import timezone
+
 
 def home(request):
     categorias = Categoria.objects.all()
@@ -85,4 +87,79 @@ def remove_from_cart(request, producto_id):
         request.session['cart'] = cart
         
     return redirect('cart')
+
+def agregar_metodo_pago(request):
+    if request.method == 'POST':
+        form = MetodoPagoForm(request.POST)
+        if form.is_valid():
+            metodo_pago = form.save(commit=False)
+            metodo_pago.usuario = request.user
+            metodo_pago.save()
+            return redirect('home')
+    else:
+        form = MetodoPagoForm()
+
+    return render(request, 'agregar_metodo_pago.html', {'form': form})\
+    
+def compra_directa(request, producto_id):
+    try:
+        metodo_pago = MetodoPago.objects.get(usuario=request.user)
+    except MetodoPago.DoesNotExist:
+        return redirect('agregar_metodo_pago')
+    
+    producto = get_object_or_404(Producto, id=producto_id)
+
+    pedido = Pedido.objects.create(
+        cliente=request.user,
+        fecha=timezone.now(),
+        total=producto.precio,
+        estado=EstadoPedido.CREADO,
+        estadoActual="Pedido realizado"
+    )
+
+    DetallePedido.objects.create(
+        pedido=pedido,
+        producto=producto,
+        cantidad=1,
+        subtotal=producto.precio
+    )
+
+    return render(request, 'confirmar_compra.html')
+
+# views.py
+
+def compra_carrito(request):
+    try:
+        metodo_pago = MetodoPago.objects.get(usuario=request.user)
+    except MetodoPago.DoesNotExist:
+        return redirect('agregar_metodo_pago')
+    
+    carrito = request.session.get('cart', {})
+
+    if not carrito:
+        return redirect('cart')
+
+    # Crear el pedido
+    pedido = Pedido.objects.create(
+        cliente=request.user,
+        fecha=timezone.now(),
+        total=sum(Producto.objects.get(id=pid).precio * cantidad for pid, cantidad in carrito.items()),
+        estado=EstadoPedido.CREADO,
+        estadoActual="Pedido realizado"
+    )
+
+    # Crear detalles del pedido
+    for producto_id, cantidad in carrito.items():
+        producto = Producto.objects.get(id=producto_id)
+        DetallePedido.objects.create(
+            pedido=pedido,
+            producto=producto,
+            cantidad=cantidad,
+            subtotal=producto.precio * cantidad
+        )
+
+    request.session['cart'] = {}
+    request.session.save()
+
+    return render(request, 'confirmar_compra.html')
 

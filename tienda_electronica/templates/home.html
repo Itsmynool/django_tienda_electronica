@@ -61,7 +61,7 @@
                                     {% csrf_token %}
                                     <button type="submit">Agregar al carrito</button>
                                 </form>
-                                <a href="#">Comprar</a>
+                                <a href="/compra_directa/{{producto.id}}">Comprar</a>
                             </div>
                         {% endif %}
                     </div>
