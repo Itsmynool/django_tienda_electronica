@@ -20,7 +20,7 @@
                     <input type="text" placeholder="Buscar" class="search-input">
                     <i class="fas fa-search search-icon"></i>
                 </div>                
-                <a href="#"><i class="fas fa-shopping-cart"></i></a>
+                <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
             </div>
             <div class="all-header">
                 {% if user.is_authenticated %}
@@ -57,7 +57,10 @@
                             <p>{{ producto.descripcion }}</p>
                             <p>Precio: {{ producto.precio }}</p>
                             <div>
-                                <a href="#">Agregar al carrito</a>
+                                <form action="/add_to_cart/{{producto.id}}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit">Agregar al carrito</button>
+                                </form>
                                 <a href="#">Comprar</a>
                             </div>
                         {% endif %}

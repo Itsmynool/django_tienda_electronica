@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout
 from .forms import ClienteSignUpForm, CustomAuthenticationForm
+from django.shortcuts import redirect, get_object_or_404
 from .models import Categoria, Producto
 
 def home(request):
@@ -44,3 +45,44 @@ def custom_logout(request):
         return redirect('/admin/')
     else:
         return redirect('home')
+    
+def cart(request):
+    cart = request.session.get('cart', {})
+    productos_en_carrito = []
+    total = 0
+
+    for id, cantidad in cart.items():
+        producto = get_object_or_404(Producto, id=id)
+        subtotal = producto.precio * cantidad
+        total += subtotal
+        productos_en_carrito.append({
+            'producto': producto,
+            'cantidad': cantidad,
+            'subtotal': subtotal,
+        })
+
+    return render(request, 'cart.html', {'productos_en_carrito': productos_en_carrito, 'total': total})
+
+def add_to_cart(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    cart = request.session.get('cart', {})
+
+    if producto_id in cart:
+        cart[producto_id] += 1
+    else:
+        cart[producto_id] = 1
+
+    request.session['cart'] = cart
+    return redirect('home')
+
+def remove_from_cart(request, producto_id):
+    cart = request.session.get('cart', {})
+    cart = {int(k): v for k, v in cart.items()}
+
+    producto_id = int(producto_id)
+    if producto_id in cart:
+        del cart[producto_id]
+        request.session['cart'] = cart
+        
+    return redirect('cart')
+
