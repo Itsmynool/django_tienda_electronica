@@ -1,0 +1,116 @@
+.productos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.producto {
+    background-color: #f5f5f5; /* Color ligeramente más oscuro que el blanco */
+    border: 1px solid #ddd; /* Borde sutil para la tarjeta */
+    border-radius: 8px; /* Bordes redondeados */
+    margin: 10px;
+    width: 300px; /* Ancho fijo para cada tarjeta */
+    overflow: hidden; /* Ocultar contenido desbordado */
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para profundidad */
+}
+
+.producto img {
+    width: 100%;
+    height: 200px; /* Altura fija para las imágenes */
+    object-fit: cover; /* Asegura que la imagen cubra el área asignada */
+    border-bottom: 1px solid #ddd; /* Borde entre la imagen y el texto */
+}
+
+.producto h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Añade puntos suspensivos si el título es muy largo */
+}
+
+.producto p {
+    color: #666;
+    font-size: 0.9em;
+    padding: 0 10px;
+    height: 60px; /* Altura fija para la descripción */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Añade puntos suspensivos si la descripción es muy larga */
+}
+
+.producto div {
+    margin: 10px 0;
+}
+
+.producto form, .producto a {
+    margin: 5px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.producto button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.producto button:hover {
+    background-color: #45a049;
+}
+
+/* Estilos adicionales para el filtro de categorías */
+.categorias-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filtro-categoria {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.form-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.form-button:hover {
+    background-color: #45a049;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
