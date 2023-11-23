@@ -163,3 +163,12 @@ def compra_carrito(request):
 
     return render(request, 'confirmar_compra.html')
 
+def mis_pedidos(request):
+    if not request.user.is_authenticated:
+        # Redirigir al login o manejar usuarios no autenticados
+        return redirect('login')
+
+    pedidos = Pedido.objects.filter(cliente=request.user).order_by('-fecha')
+
+    return render(request, 'mis_pedidos.html', {'pedidos': pedidos})
+
